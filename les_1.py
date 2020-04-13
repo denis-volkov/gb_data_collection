@@ -3,16 +3,15 @@ import json
 from secret import password
 
 
-link = 'https://api.github.com/user/repos'
-# username = input('Введите пользователя: ')
-# if not username:
+user = input('Введите пользователя: ')
+link = f'https://api.github.com/users/{user}/repos'
 username = 'denis-volkov'
 params = {}
 headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 YaBrowser/19.12.3.332 (beta) Yowser/2.5 Safari/537.36'}
 r = requests.get(link, auth=(username, password), headers=headers)
 
 answer = json.loads(r.text)
-print(f'У пользователя {username} есть репозитории в количестве {len(answer)}')
+print(f'У пользователя {user} есть репозитории в количестве {len(answer)}')
 for i in answer:
     print('{} {}.'.format(i['name'].ljust(20), i['url']))
 
