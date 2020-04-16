@@ -3,11 +3,10 @@ from bs4 import BeautifulSoup as bs
 import re
 
 link_base = 'https://hh.ru/search/vacancy?clusters=true&enable_snippets=true&salary=&st=searchVacancy&text='
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 YaBrowser/19.12.3.332 (beta) Yowser/2.5 Safari/537.36'}
+headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36 OPR/67.0.3575.137'}
 
 job = input('Введите должность: ').strip().split()
 job = '+'.join(job)
-# job = 'Data+Scientist'
 result = []
 
 page = 0
@@ -22,7 +21,7 @@ while True:
         vacancy = {'name': data.text}
         vacancy['ref'] = re.search('(?<=href=")[a-zA-Z0-9:\/.?=%]+', str(data)).group()
         vacancy['site'] = 'Head hunter'
-        data = i.find('div', {'class': 'vacancy-serp-item__compensation', 'data-qa': 'vacancy-serp__vacancy-compensation'})
+        data = i.find('span', {'data-qa': 'vacancy-serp__vacancy-compensation'})
         if not data:
             vacancy['zp'] = [None, None, None]
         else:
