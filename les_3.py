@@ -18,8 +18,8 @@ def translit_to_en(string):
 
 def add_mongo(arr):
     mongo_cli = MongoClient('localhost', 27017)
-    db = mongo_cli['vacancy']
-    collection = db.all_vacancy
+    db = mongo_cli['geek']
+    collection = db.vacancy
     for i in arr:
         if collection.count_documents(i):
             continue
@@ -31,8 +31,8 @@ def add_mongo(arr):
 
 def search_in_db(salary):
     mongo_cli = MongoClient('localhost', 27017)
-    db = mongo_cli['vacancy']
-    collection = db.all_vacancy
+    db = mongo_cli['geek']
+    collection = db.vacancy
     return collection.find({'$or': [ {'zp.0': {'$gt': salary}}, {'zp.1': {'$lte': salary}} ]}, {'name': 1, 'ref': 1,
                                                                                                 'zp': 1, '_id': 0})
 
