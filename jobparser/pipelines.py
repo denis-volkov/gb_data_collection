@@ -14,6 +14,8 @@ class JobparserPipeline(object):
     def process_item(self, item, spider):
         if spider.name == 'hhru':
             item['salary'] = self.get_salary_hh(item['salary'][:])
+        if spider.name == 'sjru':
+            item['salary'] = self.get_salary_sj(item['salary'][:])
 
         collection = self.mongo_base[spider.name]
         collection.insert_one(item)
@@ -31,4 +33,20 @@ class JobparserPipeline(object):
             result[2] = salary[3]
         else:
             result[2] = salary[5]
-        return  result
+        return result
+
+    def get_salary_sj(self, salary:list):
+        result = [None, None, None]
+        if len(salary) == 1:
+            return result
+        if 'от' in salary:
+            result[0] = int(''.join(salary[2].split(chr(160))[:-1]))
+            result[2] = salary[2].split(chr(160))[-1]
+        if 'до' in salary:
+            result[1] = int(''.join(salary[2].split(chr(160))[:-1]))
+            result[2] = salary[2].split(chr(160))[-1]
+        if 'от' not in salary and 'до' not in salary:
+            result[0] = int(salary[0].replace(chr(160), ''))
+            result[1] = int(salary[1].replace(chr(160), ''))
+            result[2] = salary[3]
+        return result
