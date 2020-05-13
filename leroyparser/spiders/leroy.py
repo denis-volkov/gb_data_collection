@@ -18,7 +18,8 @@ class LeroySpider(scrapy.Spider):
         next_page = response.xpath("//div[@class='service-panel clearfix']//div//a["
                                    "@class='paginator-button "
                                    "next-paginator-button']/@href").extract_first()
-        yield response.follow(next_page, callback=self.parse)
+        if next_page:
+            yield response.follow(next_page, callback=self.parse)
 
     def parse_link(self, response: HtmlResponse):
         loader = ItemLoader(item=LeroyparserItem(), response=response)
