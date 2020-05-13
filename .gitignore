@@ -1,6 +1,7 @@
 # my
 .*
 secret.py
+leroyparser/images*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
